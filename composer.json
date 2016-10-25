@@ -1,0 +1,15 @@
+{
+    "name": "tuupke/laravel-swagger",
+    "description": "Swagger implementation for laravel",
+    "type": "library",
+    "require": {
+        "zircote/swagger-php": "^2.0",
+        "swagger-api/swagger-ui": "^2.2"
+    },
+    "authors": [
+        {
+            "name": "Mart Pluijmaekers",
+            "email": "mart@tuupke.nl"
+        }
+    ]
+}
