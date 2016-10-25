@@ -11,5 +11,10 @@
             "name": "Mart Pluijmaekers",
             "email": "mart@tuupke.nl"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-0": {
+            "Tuupke\\Swagger": "src/"
+        }
+    }
 }
