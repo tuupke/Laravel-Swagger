@@ -3,7 +3,7 @@
     "description": "Swagger implementation for laravel",
     "type": "library",
     "require": {
-        "zircote/swagger-php": "^2.0",
+        "zircote/swagger-php": "^2.0"
     },
     "authors": [
         {
