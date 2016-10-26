@@ -1,6 +1,6 @@
 <?php namespace Tuupke\Swagger;
 
-use Illuminate\Support\ServiceProvider;
+use \Illuminate\Support\ServiceProvider;
 
 class SwaggerServiceProvider extends ServiceProvider {
 
@@ -17,9 +17,16 @@ class SwaggerServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
+        $this->loadViewsFrom(__DIR__.'/views', 'package-swagger');
+
         $this->publishes([
             __DIR__.'/swagger.php' => config_path('swagger.php'),
         ]);
+
+        $this->publishes([
+            __DIR__.'/../swagger-public' => public_path('vendor/swagger'),
+        ], 'public');
+
     }
     /**
      * Register the service provider.
@@ -29,7 +36,7 @@ class SwaggerServiceProvider extends ServiceProvider {
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'swaggervel.php', 'swagger'
+            __DIR__.'/swagger.php', 'swagger'
         );
 
         require_once __DIR__ .'/routes.php';
