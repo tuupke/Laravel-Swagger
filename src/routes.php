@@ -1,8 +1,9 @@
 <?php
 
-Route::get(Config::get('swagger.doc-http-access') . '/{environment?}/{page?}', function ($environment = null, $page = null) {
+Route::get(Config::get('swagger.doc-http-access')
+           . '/{environment?}/{page?}', function ($environment = null, $page = null) {
 
-    if(strpos($environment, ".json") !== false){
+    if (strpos($environment, ".json") !== false) {
         $page = $environment;
         $environment = null;
     }
@@ -20,9 +21,10 @@ Route::get(Config::get('swagger.doc-http-access') . '/{environment?}/{page?}', f
     }
 
     $content = File::get($filePath);
-    return Response::make($content, 200, array(
-        'Content-Type' => 'application/json'
-    ));
+
+    return Response::make($content, 200, [
+        'Content-Type' => 'application/json',
+    ]);
 });
 
 Route::get(Config::get('swagger.doc-ui-access') . '/{environment?}', function ($environment = null) {
@@ -52,34 +54,14 @@ Route::get(Config::get('swagger.doc-ui-access') . '/{environment?}', function ($
         file_put_contents($filename, $swagger);
     }
 
-    return view('package-swagger::main', [
-        "api_docs" => '/' . Config::get('swagger.doc-http-access') . '/' . strtolower($env['name']) . '/api-docs.json'
-    ]);
+    $callback = $env['view-renderer'] ?? function ($env) {
+            return view('package-swagger::main', [
+                "api_docs" => '/' . Config::get('swagger.doc-http-access') . '/' . strtolower($env['name'])
+                              . '/api-docs.json',
+            ]);
+        };
 
-    return $swagger_doc_dir;
-
-    if (!File::exists($docDir) || is_writable($docDir)) {
-        // delete all existing documentation
-        if (File::exists($docDir)) {
-            File::deleteDirectory($docDir);
-        }
-
-        File::makeDirectory($docDir);
-
-        $defaultBasePath = Config::get('swaggervel.default-base-path');
-        $defaultApiVersion = Config::get('swaggervel.default-api-version');
-        $defaultSwaggerVersion = Config::get('swaggervel.default-swagger-version');
-        $excludeDirs = Config::get('swaggervel.excludes');
-
-        $swagger = \Swagger\scan($appDir, [
-            'exclude' => $excludeDirs,
-        ]);
-
-        $filename = $docDir . '/api-docs.json';
-        file_put_contents($filename, $swagger);
-    }
-
-    return "Hoi-docs " . $environment;
+    return $callback($env);
 });
 
 function recurCreateFolder($path, $split = null) {
