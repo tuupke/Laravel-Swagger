@@ -48,9 +48,8 @@ Route::group(['prefix' => Config::get('swagger.doc-ui-access')],
                 $env = environmentToWorking($environment);
 
                 $swagger_doc_dir = Config::get('swagger.docs-dir') . '/' . strtolower($env['name']);
-                //    return $env;
 
-                if (is_writable($swagger_doc_dir) && (!File::exists($swagger_doc_dir) || ($env['generateOnRequest'] || false))) {
+                if (!File::exists($swagger_doc_dir) || ($env['generateOnRequest'] || false)) {
                     if (File::exists($swagger_doc_dir)) {
                         File::deleteDirectory($swagger_doc_dir);
                     }
