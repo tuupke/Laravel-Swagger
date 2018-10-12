@@ -6,7 +6,6 @@
     "prefer-stable": true,
     "require": {
         "zircote/swagger-php": "^3.0",
-        "tuupke/laravel-finalizer": "1.*"
     },
     "authors": [
         {
