@@ -21,6 +21,8 @@ return [
     'default-swagger-def' => 'default',
 
     "always-generate" => true,
+    
+    "custom-view" => 'package-swagger::main',
 
     'swagger-defs' => [
         "default" => [
@@ -42,13 +44,7 @@ return [
             "swagger-version"      => "2.0",
             "views"                => "",
             "base-annotations-dir" => base_path() . "/app",
+            "custom-view"          => null,
         ],
-    ],
-
-    "defaults" => [
-        "swagger-version"      => "3.0",
-        "base-path"            => "/",
-        "base-annotations-dir" => base_path() . "/app",
-        "api-version"          => "1.0.0",
     ],
 ];

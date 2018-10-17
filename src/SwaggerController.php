@@ -16,11 +16,8 @@ class SwaggerController extends Controller {
         $docs = Config::get('swagger.docs-route', 'spec');
 
         $defData = ["api_docs" => "/$base/$docs/" . strtolower($env['name'])];
-        $viewRenderer = @$env['view-renderer'] ?? @Config::get('swagger')["view-renderer"];
-        if (is_null($viewRenderer))
-            return view('package-swagger::main', $defData);
-
-        return $viewRenderer($env, $defData);
+        $viewRenderer = @$env['custom-viewrer'] ?? @Config::get('swagger')["custom-view"] ?? 'package-swagger::main';
+        return view($viewRenderer, $defData);
     }
 
     public function docs($environment = null) {
