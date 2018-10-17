@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tuupke\\Swagger\\SwaggerProvider"
+                "Tuupke\\Swagger\\SwaggerServiceProvider"
             ]
         }
     }
