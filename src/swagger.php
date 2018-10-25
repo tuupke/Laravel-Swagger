@@ -47,4 +47,8 @@ return [
             "custom-view"          => null,
         ],
     ],
+
+    'defaults' => [
+        "base-annotations-dir" => base_path() . "/app",
+    ]
 ];
