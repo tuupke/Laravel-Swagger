@@ -3,7 +3,7 @@
 class Util {
     public static function includeResolver(array $access): array {
         $excludesArray = [];
-        $wasExcluded = false;
+        $includes = [];
 
         foreach ($access as $item) {
             $type = "excludes";
@@ -24,25 +24,18 @@ class Util {
                 case "includes":
                 case "include":
                 case "in":
-                    if (!$wasExcluded)
-                        continue;
-
-                    // Do the include operation
-                    $excludesArray = array_diff($excludesArray, $val);
-
+                    $includes = array_merge($includes, $val, [$value]);
                     break;
 
                 case "excludes":
                 case "exclude":
                 case "ex":
-                    $wasExcluded = true;
-
-                    $excludesArray = array_unique(array_merge($excludesArray, $val));
+                    $excludesArray = array_merge($excludesArray, $val);
                     break;
             }
         }
 
-        return $excludesArray;
+        return array_diff(array_unique($excludesArray), $includes);
     }
 
     public static function valueToFileOrFolderArray(string $value): array {
