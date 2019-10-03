@@ -40,7 +40,7 @@
 
         // Build a system
         const ui = SwaggerUIBundle({
-            url: '{{ $api_docs or "http://petstore.swagger.io/v2/swagger.json"}}',
+            url: '{{ $api_docs }}',
             dom_id: '#swagger-ui',
             deepLinking: true,
             presets: [

@@ -1,6 +1,7 @@
 <?php namespace Tuupke\Swagger;
 
 class Util {
+
     public static function includeResolver(array $access): array {
         $excludesArray = [];
         $includes = [];
@@ -13,10 +14,12 @@ class Util {
                 $type = @$item["type"] ?? "excludes";
                 $value = @$item["value"];
 
-                if (is_null($value))
+                if (is_null($value)) {
                     continue;
-            } else
+                }
+            } else {
                 $value = $item;
+            }
 
             $val = self::valueToFileOrFolderArray($value);
 
@@ -39,11 +42,13 @@ class Util {
     }
 
     public static function valueToFileOrFolderArray(string $value): array {
-        if (!\file_exists($value))
+        if (!\file_exists($value)) {
             return [];
+        }
 
-        if (!is_dir($value))
+        if (!is_dir($value)) {
             return [$value];
+        }
 
         $val = scandir($value);
 
@@ -61,8 +66,9 @@ class Util {
 
         // Strip the last part, when it is not a dir (suffix == "/"
         $file = null;
-        if ($path[strlen($path) - 1] != "/")
+        if ($path[strlen($path) - 1] != "/") {
             $file = array_pop($pathParts);
+        }
 
         $split = [];
         // Remove "", and "." and handle ".."
@@ -73,19 +79,22 @@ class Util {
                     continue;
                 case "..":
                     array_pop($split);
-                    break;
+                    continue;
                 default:
                     array_push($split, $part);
             }
         }
 
         $cp = "";
-        foreach ($split as $s)
-            if (!is_dir($cp .= "/$s"))
+        foreach ($split as $s) {
+            if (!is_dir($cp .= "/$s")) {
                 mkdir("$cp");
+            }
+        }
 
-        if (!is_null($file))
+        if (!is_null($file)) {
             $cp .= "/$file";
+        }
 
         return $cp;
     }

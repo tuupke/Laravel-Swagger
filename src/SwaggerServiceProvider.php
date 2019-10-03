@@ -22,8 +22,9 @@ class SwaggerServiceProvider extends ServiceProvider {
         $this->loadViewsFrom(__DIR__ . '/views', 'package-swagger');
         $this->publishes([__DIR__ . '/swagger.php' => config_path('swagger.php')]);
         $this->publishes([__DIR__ . '/../swagger-public' => public_path('vendor/swagger')], 'public');
-        if ($this->app->runningInConsole())
+        if ($this->app->runningInConsole()) {
             $this->commands([SwaggerConsole::class]);
+        }
     }
 
     /**
@@ -33,10 +34,11 @@ class SwaggerServiceProvider extends ServiceProvider {
      */
     public function register() {
         $this->mergeConfigFrom(__DIR__ . '/swagger.php', 'swagger');
-        if (!$this->app->routesAreCached())
-            Route::group(['prefix' => Config::get('swagger.ui-route')], function() {
-                Route::get(Config::get('swagger.docs-route', 'spec')."/{environment?}/{page?}", '\Tuupke\Swagger\SwaggerController@docs');
+        if (!$this->app->routesAreCached()) {
+            Route::group(['prefix' => Config::get('swagger.doc-ui-access')], function () {
+                Route::get(Config::get('swagger.docs-route', 'spec') . "/{environment?}/{page?}", '\Tuupke\Swagger\SwaggerController@docs');
                 Route::get("{environment?}", '\Tuupke\Swagger\SwaggerController@ui');
             });
+        }
     }
 }
