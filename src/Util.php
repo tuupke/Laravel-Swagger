@@ -76,10 +76,10 @@ class Util {
             switch ($part) {
                 case "":
                 case ".":
-                    continue;
+                    break;
                 case "..":
                     array_pop($split);
-                    continue;
+                    break;
                 default:
                     array_push($split, $part);
             }
