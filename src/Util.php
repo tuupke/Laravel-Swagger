@@ -1,6 +1,24 @@
 <?php namespace Tuupke\Swagger;
 
+use OpenApi\Annotations\OpenApi;
+use OpenApi\Generator;
+use OpenApi\Utils\SourceFinder;
+
 class Util {
+
+    public static function scan(string $directory, array $exclude): OpenApi {
+        $generator = new Generator();
+        foreach (\Config::get('swagger.remove-processors', []) as $processor) {
+            $generator->getProcessorPipeline()->remove($processor);
+        }
+
+        $openApi = $generator->generate(new SourceFinder($directory, $exclude));
+        if (is_null($openApi)) {
+            throw new \RuntimeException("No OpenApi annotation found in $directory");
+        }
+
+        return $openApi;
+    }
 
     public static function includeResolver(array $access): array {
         $excludesArray = [];

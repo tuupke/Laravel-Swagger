@@ -70,7 +70,7 @@ class SwaggerConsole extends \Illuminate\Console\Command {
 
             try {
                 // Attempt to scan
-                $scan = \OpenApi\scan($appDir, ['exclude' => Util::includeResolver($excludeDirs)]);
+                $scan = Util::scan($appDir, Util::includeResolver($excludeDirs));
                 if ($list) {
                     $this->info("No error found for environment: $envName");
                 }

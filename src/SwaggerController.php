@@ -3,7 +3,6 @@
 use Illuminate\Routing\Controller;
 use Config;
 use File;
-use OpenApi;
 use Redis;
 
 class SwaggerController extends Controller {
@@ -35,9 +34,8 @@ class SwaggerController extends Controller {
 
         $excludeDirs = @$env['excludes'] ?? [];
         $appDir = $env['base-annotations-dir'] ?? Config::get('swagger.defaults.base-annotations-dir');
-        $resp = OpenApi\scan($appDir, [
-            'exclude' => Util::includeResolver($excludeDirs),
-        ])->toJson(JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $resp = Util::scan($appDir, Util::includeResolver($excludeDirs))
+            ->toJson(JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
         if ($store) {
             \File::put(Util::ensureDir($docLoc), $resp);

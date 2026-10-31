@@ -24,6 +24,15 @@ return [
     
     "custom-view" => 'package-swagger::main',
 
+    /*
+     |--------------------------------------------------------------------------
+     | swagger-php processors to remove from the generator pipeline, e.g.
+     | \OpenApi\Processors\ExpandClasses::class to stop schemas inheriting
+     | the schemas of their parent classes.
+     |--------------------------------------------------------------------------
+    */
+    'remove-processors' => [],
+
     'swagger-defs' => [
         "default" => [
             "name"     => "Default",
